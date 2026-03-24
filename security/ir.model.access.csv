@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_opencart_config,opencart.config,model_opencart_config,base.group_user,1,1,1,1
+access_opencart_product_sync,opencart.product.sync,model_opencart_product_sync,base.group_user,1,1,1,1
+access_opencart_customer_sync,opencart.customer.sync,model_opencart_customer_sync,base.group_user,1,1,1,1
+access_opencart_order_sync,opencart.order.sync,model_opencart_order_sync,base.group_user,1,1,1,1
+access_opencart_stock_sync,opencart.stock.sync,model_opencart_stock_sync,base.group_user,1,1,1,1

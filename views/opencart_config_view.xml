@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="view_opencart_config_form" model="ir.ui.view">
+        <field name="name">opencart.config.form</field>
+        <field name="model">opencart.config</field>
+        <field name="arch" type="xml">
+            <form string="OpenCart Configuration">
+                <header>
+                    <button name="action_test_mysql"
+                            string="Test MySQL Connection"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_sync_all"
+                            string="Sync All"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_sync_customers"
+                            string="Sync Customers"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button name="action_sync_products"
+                            string="Sync Products"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button name="action_sync_orders"
+                            string="Sync Orders"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button name="action_sync_stock"
+                            string="Sync Stock"
+                            type="object"
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="url" placeholder="http://opencart.localhost"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="MySQL Connection">
+                            <field name="db_host"/>
+                            <field name="db_port"/>
+                            <field name="db_user"/>
+                            <field name="db_password" password="True"/>
+                            <field name="db_name"/>
+                            <field name="db_table_prefix"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_opencart_config_list" model="ir.ui.view">
+        <field name="name">opencart.config.list</field>
+        <field name="model">opencart.config</field>
+        <field name="arch" type="xml">
+            <list string="OpenCart Configurations">
+                <field name="name"/>
+                <field name="url"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_opencart_config" model="ir.actions.act_window">
+        <field name="name">OpenCart Configuration</field>
+        <field name="res_model">opencart.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+</odoo>

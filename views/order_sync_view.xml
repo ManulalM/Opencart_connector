@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_opencart_order_sync_list" model="ir.ui.view">
+        <field name="name">opencart.order.sync.list</field>
+        <field name="model">opencart.order.sync</field>
+        <field name="arch" type="xml">
+            <list string="Order Sync" create="false">
+                <field name="opencart_order_id"/>
+                <field name="sale_order_id"/>
+                <field name="last_sync"/>
+                <field name="sync_status"
+                       decoration-success="sync_status == 'success'"
+                       decoration-danger="sync_status == 'failed'"
+                       widget="badge"/>
+                <field name="sync_message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_opencart_order_sync" model="ir.actions.act_window">
+        <field name="name">Order Sync</field>
+        <field name="res_model">opencart.order.sync</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_opencart_root"
+              name="OpenCart"
+              sequence="80"/>
+
+    <menuitem id="menu_opencart_config"
+              name="Configuration"
+              parent="menu_opencart_root"
+              action="action_opencart_config"
+              sequence="10"/>
+
+    <menuitem id="menu_opencart_product_sync"
+              name="Product Sync"
+              parent="menu_opencart_root"
+              action="action_opencart_product_sync"
+              sequence="20"/>
+
+    <menuitem id="menu_opencart_customer_sync"
+              name="Customer Sync"
+              parent="menu_opencart_root"
+              action="action_opencart_customer_sync"
+              sequence="30"/>
+
+    <menuitem id="menu_opencart_order_sync"
+              name="Order Sync"
+              parent="menu_opencart_root"
+              action="action_opencart_order_sync"
+              sequence="40"/>
+</odoo>

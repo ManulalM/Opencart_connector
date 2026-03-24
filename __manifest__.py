@@ -1,0 +1,21 @@
+{
+    'name': 'Opencart-Odoo-Bridge',
+    'version': '18.0.1.0.0',
+    'summary': 'Connecting Opencart to Odoo for sales and inventory management',
+    'author': 'Manulal M',
+    'category': 'Sales and Inventory',
+    'depends': ['sale', 'stock', 'product'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/opencart_config_view.xml',
+        'views/product_sync_view.xml',
+        'views/customer_sync_view.xml',
+        'views/order_sync_view.xml',
+        'views/menuitems.xml',
+        'data/cron.xml',
+    ],
+    'sequence': 1,
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}
