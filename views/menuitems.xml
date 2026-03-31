@@ -1,30 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- ═══ Root Menu ═══ -->
     <menuitem id="menu_opencart_root"
-              name="OpenCart"
+              name="OpenCart Connector"
+              web_icon="opencart_connector,static/description/icon.png"
               sequence="80"/>
 
-    <menuitem id="menu_opencart_config"
-              name="Configuration"
+    <!-- ═══ 1. Dashboard ═══ -->
+    <menuitem id="menu_opencart_dashboard"
+              name="Dashboard"
               parent="menu_opencart_root"
-              action="action_opencart_config"
+              action="action_opencart_dashboard"
               sequence="10"/>
 
-    <menuitem id="menu_opencart_product_sync"
-              name="Product Sync"
+    <!-- ═══ 2. Sync (parent) ═══ -->
+    <menuitem id="menu_opencart_sync"
+              name="Sync"
               parent="menu_opencart_root"
-              action="action_opencart_product_sync"
               sequence="20"/>
 
-    <menuitem id="menu_opencart_customer_sync"
+    <menuitem id="menu_opencart_sync_products"
+              name="Product Sync"
+              parent="menu_opencart_sync"
+              action="action_opencart_product_sync"
+              sequence="1"/>
+
+    <menuitem id="menu_opencart_sync_orders"
+              name="Order Sync"
+              parent="menu_opencart_sync"
+              action="action_opencart_order_sync"
+              sequence="2"/>
+
+    <menuitem id="menu_opencart_sync_customers"
               name="Customer Sync"
-              parent="menu_opencart_root"
+              parent="menu_opencart_sync"
               action="action_opencart_customer_sync"
+              sequence="3"/>
+
+    <!-- ═══ 3. Logs ═══ -->
+    <menuitem id="menu_opencart_logs"
+              name="Logs"
+              parent="menu_opencart_root"
+              action="action_opencart_sync_log"
+              sequence="50"/>
+
+    <!-- ═══ 4. Configuration ═══ -->
+    <menuitem id="menu_opencart_config_parent"
+              name="Configuration"
+              parent="menu_opencart_root"
+              sequence="90"/>
+
+    <menuitem id="menu_opencart_config"
+              name="Settings"
+              parent="menu_opencart_config_parent"
+              action="action_opencart_config"
+              sequence="1"/>
+
+    <menuitem id="menu_opencart_products_template"
+              name="Products"
+              parent="menu_opencart_config_parent"
+              action="action_opencart_product_template"
+              sequence="10"/>
+
+    <menuitem id="menu_opencart_products_variant"
+              name="Product Variants"
+              parent="menu_opencart_config_parent"
+              action="action_opencart_product_variant"
+              sequence="11"/>
+
+    <menuitem id="menu_opencart_orders"
+              name="Orders"
+              parent="menu_opencart_config_parent"
+              action="action_opencart_sale_order"
+              sequence="20"/>
+
+    <menuitem id="menu_opencart_customers"
+              name="Customers"
+              parent="menu_opencart_config_parent"
+              action="action_opencart_customers"
               sequence="30"/>
 
-    <menuitem id="menu_opencart_order_sync"
-              name="Order Sync"
-              parent="menu_opencart_root"
-              action="action_opencart_order_sync"
-              sequence="40"/>
 </odoo>

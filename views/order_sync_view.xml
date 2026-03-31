@@ -1,27 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Search View -->
+    <record id="view_opencart_order_sync_search" model="ir.ui.view">
+        <field name="name">opencart.order.sync.search</field>
+        <field name="model">opencart.order.sync</field>
+        <field name="arch" type="xml">
+            <search string="Order Sync">
+                <field name="sale_order_id"/>
+                <field name="opencart_order_id"/>
+                <field name="sync_message"/>
+                <filter name="success" string="Synced"
+                        domain="[('sync_status', '=', 'success')]"/>
+                <filter name="failed" string="Failed"
+                        domain="[('sync_status', '=', 'failed')]"/>
+                <separator/>
+                <filter name="today" string="Synced Today"
+                        domain="[('last_sync', '&gt;=', (context_today()).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'sync_status'}"/>
+                    <filter name="group_date" string="Sync Date" context="{'group_by': 'last_sync:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- List View -->
     <record id="view_opencart_order_sync_list" model="ir.ui.view">
         <field name="name">opencart.order.sync.list</field>
         <field name="model">opencart.order.sync</field>
         <field name="arch" type="xml">
-            <list string="Order Sync" create="false">
-                <field name="opencart_order_id"/>
+            <list string="Order Sync" create="false"
+                  decoration-danger="sync_status == 'failed'"
+                  decoration-success="sync_status == 'success'">
+                <field name="opencart_order_id" string="OC Order #"/>
                 <field name="sale_order_id"/>
                 <field name="last_sync"/>
-                <field name="sync_status"
+                <field name="sync_status" widget="badge"
                        decoration-success="sync_status == 'success'"
-                       decoration-danger="sync_status == 'failed'"
-                       widget="badge"/>
+                       decoration-danger="sync_status == 'failed'"/>
                 <field name="sync_message"/>
             </list>
         </field>
     </record>
 
+    <!-- Form View -->
+    <record id="view_opencart_order_sync_form" model="ir.ui.view">
+        <field name="name">opencart.order.sync.form</field>
+        <field name="model">opencart.order.sync</field>
+        <field name="arch" type="xml">
+            <form string="Order Sync Record" create="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>OC Order #<field name="opencart_order_id" readonly="1" class="oe_inline"/></h1>
+                    </div>
+                    <group>
+                        <group string="Mapping">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="opencart_order_id" readonly="1"/>
+                        </group>
+                        <group string="Sync Info">
+                            <field name="last_sync" readonly="1"/>
+                            <field name="sync_status" widget="badge"
+                                   decoration-success="sync_status == 'success'"
+                                   decoration-danger="sync_status == 'failed'"
+                                   readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Message">
+                        <field name="sync_message" readonly="1" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
     <record id="action_opencart_order_sync" model="ir.actions.act_window">
         <field name="name">Order Sync</field>
         <field name="res_model">opencart.order.sync</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_opencart_order_sync_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No order sync records yet.
+            </p>
+            <p>Orders will appear here after the first sync runs.</p>
+        </field>
     </record>
 
 </odoo>

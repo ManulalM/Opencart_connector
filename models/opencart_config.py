@@ -20,6 +20,16 @@ class OpencartConfig(models.Model):
     db_name = fields.Char(string='MySQL Database', required=True, default='opencart_db')
     db_table_prefix = fields.Char(string='Table Prefix', default='oc_')
 
+    # SFTP for image sync
+    sftp_host = fields.Char(string='SFTP Host', help='Defaults to MySQL host if empty')
+    sftp_port = fields.Integer(string='SFTP Port', default=22)
+    sftp_user = fields.Char(string='SFTP User')
+    sftp_password = fields.Char(string='SFTP Password')
+    opencart_image_path = fields.Char(
+        string='OpenCart Image Path',
+        help='Absolute path to OpenCart image dir on server, e.g. /var/www/html/opencart/image/',
+    )
+
     @classmethod
     def _get_active_config(cls, env):
         config = env['opencart.config'].search([('active', '=', True)], limit=1)
@@ -85,6 +95,25 @@ class OpencartConfig(models.Model):
         self.env['opencart.order.sync']._cron_sync_orders()
         self.env['opencart.stock.sync']._cron_sync_stock()
         return self._notify('All syncs completed.')
+
+    def get_sftp_connection(self):
+        """Return a paramiko SFTP client."""
+        import paramiko
+        host = self.sftp_host or self.db_host
+        transport = paramiko.Transport((host, self.sftp_port or 22))
+        transport.connect(username=self.sftp_user, password=self.sftp_password)
+        return paramiko.SFTPClient.from_transport(transport), transport
+
+    def action_test_sftp(self):
+        self.ensure_one()
+        try:
+            sftp, transport = self.get_sftp_connection()
+            sftp.listdir(self.opencart_image_path or '/')
+            sftp.close()
+            transport.close()
+            return self._notify('SFTP connection successful!')
+        except Exception as e:
+            raise UserError(f'SFTP connection failed: {e}')
 
     def _notify(self, message):
         return {

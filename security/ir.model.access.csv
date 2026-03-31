@@ -4,3 +4,5 @@ access_opencart_product_sync,opencart.product.sync,model_opencart_product_sync,b
 access_opencart_customer_sync,opencart.customer.sync,model_opencart_customer_sync,base.group_user,1,1,1,1
 access_opencart_order_sync,opencart.order.sync,model_opencart_order_sync,base.group_user,1,1,1,1
 access_opencart_stock_sync,opencart.stock.sync,model_opencart_stock_sync,base.group_user,1,1,1,1
+access_opencart_dashboard,opencart.dashboard,model_opencart_dashboard,base.group_user,1,1,1,1
+access_opencart_sync_log,opencart.sync.log,model_opencart_sync_log,base.group_user,1,1,1,1

@@ -46,7 +46,7 @@ class CustomerSync(models.Model):
                        a.address_1, a.address_2, a.city, a.postcode, a.country_id as oc_country_id
                 FROM {prefix}customer c
                 LEFT JOIN {prefix}address a ON a.customer_id = c.customer_id
-                    AND a.address_id = c.address_id
+                    AND a.`default` = 1
                 WHERE c.customer_id NOT IN ({','.join(['%s'] * len(synced_ids))})
             """, synced_ids)
 

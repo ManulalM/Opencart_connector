@@ -9,44 +9,41 @@
             <form string="OpenCart Configuration">
                 <header>
                     <button name="action_test_mysql"
-                            string="Test MySQL Connection"
+                            string="Test MySQL"
                             type="object"
-                            class="btn-primary"/>
-                    <button name="action_sync_all"
-                            string="Sync All"
+                            class="btn-primary"
+                            icon="fa-database"/>
+                    <button name="action_test_sftp"
+                            string="Test SFTP"
                             type="object"
-                            class="btn-primary"/>
-                    <button name="action_sync_customers"
-                            string="Sync Customers"
-                            type="object"
-                            class="btn-secondary"/>
-                    <button name="action_sync_products"
-                            string="Sync Products"
-                            type="object"
-                            class="btn-secondary"/>
-                    <button name="action_sync_orders"
-                            string="Sync Orders"
-                            type="object"
-                            class="btn-secondary"/>
-                    <button name="action_sync_stock"
-                            string="Sync Stock"
-                            type="object"
-                            class="btn-secondary"/>
+                            class="btn-secondary"
+                            icon="fa-server"/>
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="My OpenCart Store"/></h1>
+                    </div>
                     <group>
                         <group string="General">
-                            <field name="name"/>
-                            <field name="url" placeholder="http://opencart.localhost"/>
-                            <field name="active"/>
+                            <field name="url" placeholder="https://mystore.com" widget="url"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                         <group string="MySQL Connection">
-                            <field name="db_host"/>
+                            <field name="db_host" placeholder="localhost"/>
                             <field name="db_port"/>
                             <field name="db_user"/>
                             <field name="db_password" password="True"/>
                             <field name="db_name"/>
-                            <field name="db_table_prefix"/>
+                            <field name="db_table_prefix" placeholder="oc_"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="SFTP (Image Sync)">
+                            <field name="sftp_host" placeholder="Same as MySQL host if empty"/>
+                            <field name="sftp_port"/>
+                            <field name="sftp_user"/>
+                            <field name="sftp_password" password="True"/>
+                            <field name="opencart_image_path" placeholder="/var/www/html/opencart/image/"/>
                         </group>
                     </group>
                 </sheet>
@@ -61,8 +58,9 @@
         <field name="arch" type="xml">
             <list string="OpenCart Configurations">
                 <field name="name"/>
-                <field name="url"/>
-                <field name="active"/>
+                <field name="url" widget="url"/>
+                <field name="db_host"/>
+                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
@@ -73,6 +71,5 @@
         <field name="res_model">opencart.config</field>
         <field name="view_mode">list,form</field>
     </record>
-
 
 </odoo>

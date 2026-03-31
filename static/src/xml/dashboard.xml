@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="opencart_connector.Dashboard">
+        <div class="o_opencart_dashboard o_action">
+
+            <!-- ══ Loading ══ -->
+            <t t-if="state.loading">
+                <div class="d-flex justify-content-center align-items-center" style="min-height:500px">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem" role="status"/>
+                        <div class="text-muted">Loading dashboard...</div>
+                    </div>
+                </div>
+            </t>
+
+            <!-- ══ Dashboard ══ -->
+            <t t-if="!state.loading and state.data">
+                <div class="p-4" style="background:#f8f9fa; min-height:100vh">
+
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-1" style="color:#714B67">
+                                <i class="fa fa-shopping-cart me-2"/>OpenCart Dashboard
+                            </h2>
+                            <span class="text-muted">
+                                Last sync:
+                                <strong t-esc="state.data.last_sync"/>
+                                <t t-if="state.data.last_sync_status === 'success'">
+                                    <span class="badge bg-success ms-2">OK</span>
+                                </t>
+                                <t t-if="state.data.last_sync_status === 'failed'">
+                                    <span class="badge bg-danger ms-2">Failed</span>
+                                </t>
+                            </span>
+                        </div>
+                        <button class="btn btn-outline-primary" t-on-click="() => this.loadData()">
+                            <i class="fa fa-refresh me-1"/> Refresh
+                        </button>
+                    </div>
+
+                    <!-- ── KPI Cards ── -->
+                    <div class="row g-3 mb-4">
+
+                        <!-- Products -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card border-0 shadow-sm h-100" style="border-left:4px solid #714B67 !important"
+                                 t-on-click="() => this.openView('opencart.product.sync', 'Products')" role="button">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold mb-1">Products</div>
+                                            <h2 class="fw-bold mb-0" style="color:#714B67" t-esc="state.data.total_products"/>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:48px;height:48px;background:rgba(113,75,103,0.1)">
+                                            <i class="fa fa-cube fa-lg" style="color:#714B67"/>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success me-1">
+                                            <i class="fa fa-check"/> <t t-esc="state.data.success_products"/>
+                                        </span>
+                                        <t t-if="state.data.failed_products > 0">
+                                            <span class="badge bg-danger" t-on-click.stop="openFailedProducts" role="button">
+                                                <i class="fa fa-times"/> <t t-esc="state.data.failed_products"/> failed
+                                            </span>
+                                        </t>
+                                        <span class="text-muted small ms-2">
+                                            +<t t-esc="state.data.products_today"/> today
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orders -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card border-0 shadow-sm h-100" style="border-left:4px solid #3498db !important"
+                                 t-on-click="() => this.openView('opencart.order.sync', 'Orders')" role="button">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold mb-1">Orders</div>
+                                            <h2 class="fw-bold mb-0" style="color:#3498db" t-esc="state.data.total_orders"/>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:48px;height:48px;background:rgba(52,152,219,0.1)">
+                                            <i class="fa fa-shopping-bag fa-lg" style="color:#3498db"/>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success me-1">
+                                            <i class="fa fa-check"/> <t t-esc="state.data.success_orders"/>
+                                        </span>
+                                        <t t-if="state.data.failed_orders > 0">
+                                            <span class="badge bg-danger" t-on-click.stop="openFailedOrders" role="button">
+                                                <i class="fa fa-times"/> <t t-esc="state.data.failed_orders"/> failed
+                                            </span>
+                                        </t>
+                                        <span class="text-muted small ms-2">
+                                            +<t t-esc="state.data.orders_today"/> today
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Customers -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card border-0 shadow-sm h-100" style="border-left:4px solid #2ecc71 !important"
+                                 t-on-click="() => this.openView('opencart.customer.sync', 'Customers')" role="button">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold mb-1">Customers</div>
+                                            <h2 class="fw-bold mb-0" style="color:#2ecc71" t-esc="state.data.total_customers"/>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width:48px;height:48px;background:rgba(46,204,113,0.1)">
+                                            <i class="fa fa-users fa-lg" style="color:#2ecc71"/>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success me-1">
+                                            <i class="fa fa-check"/> <t t-esc="state.data.success_customers"/>
+                                        </span>
+                                        <t t-if="state.data.failed_customers > 0">
+                                            <span class="badge bg-danger">
+                                                <i class="fa fa-times"/> <t t-esc="state.data.failed_customers"/> failed
+                                            </span>
+                                        </t>
+                                        <span class="text-muted small ms-2">
+                                            +<t t-esc="state.data.customers_today"/> today
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card border-0 shadow-sm h-100"
+                                 t-att-style="state.data.pending_count > 0 ? 'border-left:4px solid #e74c3c !important' : 'border-left:4px solid #95a5a6 !important'">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="text-muted small text-uppercase fw-semibold mb-1">Pending / Failed</div>
+                                            <h2 class="fw-bold mb-0"
+                                                t-att-style="state.data.pending_count > 0 ? 'color:#e74c3c' : 'color:#95a5a6'"
+                                                t-esc="state.data.pending_count"/>
+                                        </div>
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                             t-att-style="state.data.pending_count > 0 ? 'width:48px;height:48px;background:rgba(231,76,60,0.1)' : 'width:48px;height:48px;background:rgba(149,165,166,0.1)'">
+                                            <i class="fa fa-exclamation-triangle fa-lg"
+                                               t-att-style="state.data.pending_count > 0 ? 'color:#e74c3c' : 'color:#95a5a6'"/>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <t t-if="state.data.pending_count > 0">
+                                            <span class="text-danger small">Needs attention</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="text-success small"><i class="fa fa-check-circle"/> All clear</span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Quick Actions ── -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="fw-semibold mb-3"><i class="fa fa-bolt me-2 text-warning"/>Quick Actions</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button class="btn btn-outline-primary"
+                                        t-att-disabled="state.syncing"
+                                        t-on-click="() => this.triggerSync('product')">
+                                    <t t-if="state.syncing and state.syncingType === 'product'">
+                                        <span class="spinner-border spinner-border-sm me-1"/>
+                                    </t>
+                                    <t t-else=""><i class="fa fa-cube me-1"/></t>
+                                    Sync Products
+                                </button>
+                                <button class="btn btn-outline-info"
+                                        t-att-disabled="state.syncing"
+                                        t-on-click="() => this.triggerSync('order')">
+                                    <t t-if="state.syncing and state.syncingType === 'order'">
+                                        <span class="spinner-border spinner-border-sm me-1"/>
+                                    </t>
+                                    <t t-else=""><i class="fa fa-shopping-bag me-1"/></t>
+                                    Sync Orders
+                                </button>
+                                <button class="btn btn-outline-success"
+                                        t-att-disabled="state.syncing"
+                                        t-on-click="() => this.triggerSync('customer')">
+                                    <t t-if="state.syncing and state.syncingType === 'customer'">
+                                        <span class="spinner-border spinner-border-sm me-1"/>
+                                    </t>
+                                    <t t-else=""><i class="fa fa-users me-1"/></t>
+                                    Sync Customers
+                                </button>
+                                <button class="btn btn-outline-secondary"
+                                        t-att-disabled="state.syncing"
+                                        t-on-click="() => this.triggerSync('stock')">
+                                    <t t-if="state.syncing and state.syncingType === 'stock'">
+                                        <span class="spinner-border spinner-border-sm me-1"/>
+                                    </t>
+                                    <t t-else=""><i class="fa fa-archive me-1"/></t>
+                                    Sync Stock
+                                </button>
+                                <div class="vr mx-1"/>
+                                <button class="btn btn-primary"
+                                        t-att-disabled="state.syncing"
+                                        t-on-click="() => this.triggerSync('all')">
+                                    <t t-if="state.syncing and state.syncingType === 'all'">
+                                        <span class="spinner-border spinner-border-sm me-1"/>Syncing...
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-refresh me-1"/> Full Sync
+                                    </t>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+
+                        <!-- ── Chart ── -->
+                        <div class="col-lg-8">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-semibold mb-0">
+                                            <i class="fa fa-bar-chart me-2 text-primary"/>Sync Activity
+                                        </h5>
+                                        <div class="btn-group btn-group-sm">
+                                            <button t-att-class="state.chartDays === 7 ? 'btn btn-primary' : 'btn btn-outline-secondary'"
+                                                    t-on-click="() => this.setChartDays(7)">7 Days</button>
+                                            <button t-att-class="state.chartDays === 30 ? 'btn btn-primary' : 'btn btn-outline-secondary'"
+                                                    t-on-click="() => this.setChartDays(30)">30 Days</button>
+                                        </div>
+                                    </div>
+                                    <div style="height:320px; position:relative">
+                                        <canvas t-ref="chart"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ── Recent Activity ── -->
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-semibold mb-0">
+                                            <i class="fa fa-history me-2 text-secondary"/>Recent Activity
+                                        </h5>
+                                        <button class="btn btn-sm btn-outline-secondary" t-on-click="openLogs">
+                                            View All
+                                        </button>
+                                    </div>
+                                    <t t-if="state.data.recent_logs.length === 0">
+                                        <div class="text-center text-muted py-5">
+                                            <i class="fa fa-inbox fa-3x mb-3 d-block opacity-25"/>
+                                            No activity logs yet
+                                        </div>
+                                    </t>
+                                    <div class="list-group list-group-flush" style="max-height:320px;overflow-y:auto">
+                                        <t t-foreach="state.data.recent_logs" t-as="log" t-key="log.id">
+                                            <div class="list-group-item px-0 border-0 border-bottom">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <span t-att-class="log.status === 'success' ? 'badge bg-success me-1' : 'badge bg-danger me-1'">
+                                                            <t t-esc="log.sync_type"/>
+                                                        </span>
+                                                        <small class="text-muted" t-esc="log.summary"/>
+                                                    </div>
+                                                    <small class="text-muted text-nowrap ms-2" t-esc="log.create_date"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

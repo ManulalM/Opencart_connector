@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Product Sync: Odoo -> OpenCart (every 30 min) -->
+    <!-- Product Sync: Odoo -> OpenCart (safety net, every 1 min) -->
     <record id="cron_sync_products" model="ir.cron">
         <field name="name">OpenCart: Sync Products</field>
         <field name="model_id" ref="model_opencart_product_sync"/>
         <field name="state">code</field>
         <field name="code">model._cron_sync_products()</field>
-        <field name="interval_number">30</field>
+        <field name="interval_number">1</field>
         <field name="interval_type">minutes</field>
         <field name="active">True</field>
     </record>
 
-    <!-- Customer Sync: OpenCart -> Odoo (every 15 min) -->
+    <!-- Customer Sync: OpenCart -> Odoo (safety net, every 1 min) -->
     <record id="cron_sync_customers" model="ir.cron">
         <field name="name">OpenCart: Sync Customers</field>
         <field name="model_id" ref="model_opencart_customer_sync"/>
         <field name="state">code</field>
         <field name="code">model._cron_sync_customers()</field>
-        <field name="interval_number">15</field>
+        <field name="interval_number">1</field>
         <field name="interval_type">minutes</field>
         <field name="active">True</field>
     </record>
 
-    <!-- Order Sync: OpenCart -> Odoo (every 10 min) -->
+    <!-- Order Sync: OpenCart -> Odoo (safety net, every 1 min) -->
     <record id="cron_sync_orders" model="ir.cron">
         <field name="name">OpenCart: Sync Orders</field>
         <field name="model_id" ref="model_opencart_order_sync"/>
         <field name="state">code</field>
         <field name="code">model._cron_sync_orders()</field>
-        <field name="interval_number">10</field>
+        <field name="interval_number">1</field>
         <field name="interval_type">minutes</field>
         <field name="active">True</field>
     </record>
 
-    <!-- Stock Sync: Odoo -> OpenCart (every 15 min) -->
+    <!-- Stock Sync: Odoo -> OpenCart (safety net, every 1 min) -->
     <record id="cron_sync_stock" model="ir.cron">
         <field name="name">OpenCart: Sync Stock</field>
         <field name="model_id" ref="model_opencart_stock_sync"/>
         <field name="state">code</field>
         <field name="code">model._cron_sync_stock()</field>
-        <field name="interval_number">15</field>
+        <field name="interval_number">1</field>
         <field name="interval_type">minutes</field>
         <field name="active">True</field>
     </record>

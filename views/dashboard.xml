@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard Client Action -->
+    <record id="action_opencart_dashboard" model="ir.actions.client">
+        <field name="name">OpenCart Dashboard</field>
+        <field name="tag">opencart_dashboard</field>
+    </record>
+
+</odoo>
